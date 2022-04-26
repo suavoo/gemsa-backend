@@ -1,0 +1,27 @@
+{
+  "name": "gemeinsamesache-backend-node",
+  "version": "1.0.0",
+  "description": "Node.js Express with MySQL DB Backend for civil society initiatives application.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node.js",
+    "express",
+    "jwt",
+    "authentication",
+    "mysql"
+  ],
+  "author": "Oliver Kaut",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.15",
+    "sequelize": "^6.19.0"
+  }
+}
