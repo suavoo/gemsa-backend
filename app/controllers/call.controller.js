@@ -2,7 +2,7 @@ const db = require("../models");
 
 const User = db.user;
 const Group = db.group;
-const Call = db.call;
+const Call = db.call; 
 
 exports.createCall = (req, res) => {
     Call.create({

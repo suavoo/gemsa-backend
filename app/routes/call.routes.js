@@ -12,33 +12,33 @@ module.exports = function(app) {
 
   app.get(
       "/api/calls",
-      controller.getCalls
+      controller.getCalls 
   );
 
   app.get(
-    "/api/call/:id",
+    "/api/calls/:id",
     controller.getOneCall
   );
 
   app.get(
-    "/api/callsof/:id",
+    "/api/calls/of/:id",
     controller.getCallsOf
   );
 
   app.post(
-      "/api/createcall/:id",
+      "/api/calls/:id",
       [authJwt.verifyToken],
       controller.createCall
   );
 
-  app.post(
-    "/api/updatecall/:id",
+  app.put(
+    "/api/calls/:id",
     [authJwt.verifyToken],
     controller.updateCall
   );
 
-  app.post(
-    "/api/deletecall/:id",
+  app.delete(
+    "/api/calls/:id",
     [authJwt.verifyToken],
     controller.deleteCall
   );

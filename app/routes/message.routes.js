@@ -11,18 +11,18 @@ module.exports = function(app) {
   });
 
   app.get(
-    "/api/messagesof/:id",
+    "/api/messages/of/:id",
     controller.getMessagesFrom
   );
 
   app.post(
-      "/api/createmessage/:id",
+      "/api/messages/create/:id",
       [authJwt.verifyUserToken],
       controller.createMessage
   );
 
-  app.post(
-    "/api/deletemessage/:id",
+  app.delete(
+    "/api/messages/:id",
     [authJwt.verifyUserToken],
     controller.deleteMessage
   );

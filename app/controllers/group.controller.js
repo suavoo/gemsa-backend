@@ -29,7 +29,7 @@ exports.createGroup = (req, res) => {
 exports.updateGroup = (req, res) => {
     Group.findOne({
         where: {
-            id: req.body.groupId
+            id: req.body.groupId 
         }
     })
       .then(group => {

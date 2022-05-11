@@ -16,29 +16,29 @@ module.exports = function(app) {
   );
 
   app.get(
-    "/api/issue/:id",
+    "/api/issues/:id",
     controller.getOneIssue
   );
 
   app.get(
-    "/api/issuesof/:id",
+    "/api/issues/of/:id",
     controller.getIssuesOf
   );
 
   app.post(
-      "/api/createissue/:id",
+      "/api/issues/create/:id",
       [authJwt.verifyToken],
       controller.createIssue
   );
 
   app.post(
-    "/api/addissue/:id",
+    "/api/issues/add/:id",
     [authJwt.verifyToken],
     controller.addIssue
   );
 
   app.post(
-    "/api/removeissue/:id",
+    "/api/issues/remove/:id",
     [authJwt.verifyToken],
     controller.removeIssue
   );

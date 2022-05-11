@@ -16,29 +16,29 @@ module.exports = function(app) {
   );
 
   app.get(
-    "/api/skill/:id",
+    "/api/skills/:id",
     controller.getOneSkill
   );
 
   app.get(
-    "/api/skillsof/:id",
+    "/api/skills/of/:id",
     controller.getSkillsOf
   );
 
   app.post(
-      "/api/createskill/:id",
+      "/api/skills/:id",
       [authJwt.verifyToken],
       controller.createSkill
   );
 
   app.post(
-    "/api/addskill/:id",
+    "/api/skills/add/:id",
     [authJwt.verifyToken],
     controller.addSkill
   );
 
   app.post(
-    "/api/removeskill/:id",
+    "/api/skills/remove/:id",
     [authJwt.verifyToken],
     controller.removeSkill
   );

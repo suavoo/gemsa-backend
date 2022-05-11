@@ -19,7 +19,7 @@ module.exports = function(app) {
   );
 
   app.get(
-    "/api/user/:id",
+    "/api/users/:id",
     [authJwt.verifyUserToken],
     controller.userData
   );
