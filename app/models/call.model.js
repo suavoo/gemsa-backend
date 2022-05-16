@@ -3,7 +3,7 @@ module.exports = (sequelize, Sequelize) => {
       id: {
           type: Sequelize.UUID,
           defaultValue: Sequelize.UUIDV4,
-          primaryKey: true
+          primaryKey: true 
       },
       title: {
         type: Sequelize.STRING
@@ -19,6 +19,9 @@ module.exports = (sequelize, Sequelize) => {
       },
       description: {
           type: Sequelize.TEXT
+      },
+      group: {
+        type: Sequelize.UUID
       },
       image: {
           type: Sequelize.STRING

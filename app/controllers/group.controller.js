@@ -2,12 +2,13 @@ const db = require("../models");
 
 const User = db.user;
 const Group = db.group;
+const Message = db.message;
 
 exports.createGroup = (req, res) => {
     Group.create({
         title: req.body.title,
         location: req.body.location,
-        description: req.body.description,
+        description: req.body.description, 
         image: req.body.image
     })
       .then(group => {
@@ -33,13 +34,19 @@ exports.updateGroup = (req, res) => {
         }
     })
       .then(group => {
-          group.update({
-              title: req.body.title,
-              location: req.body.location,
-              description: req.body.description,
-              image: req.body.image
-          }).then(() => {
-             res.send({ message: `${group.title} has been updated` });
+          group.getUsers().then(users => {
+              if (users.some(user => user.id === req.params.id)) {
+                group.update({
+                    title: req.body.title,
+                    location: req.body.location,
+                    description: req.body.description,
+                    image: req.body.image
+                }).then(() => {
+                   res.send({ message: `${group.title} has been updated` });
+                })
+              } else {
+                  res.send({ message: 'Must be member to update.' })
+              }
           })
       })
       .catch(err => {
@@ -165,31 +172,41 @@ exports.getGroupUsers = (req, res) => {
     });
 };
 
-exports.getUserGroups = (req, res) => {
-    User.findOne({
+exports.getGroupCalls = (req, res) => {
+    Group.findOne({
         where: {
             id: req.params.id
         }
-    })
-      .then(user => {
-          var memberof = [];
-          user.getGroups().then(groups => {
-            for (let i = 0; i < groups.length; i++) {
-              memberof.push({
-                  groupId: groups[i].id,
-                  title: groups[i].title,
-                  location: groups[i].location,
-                  description: groups[i].description,
-                  image: groups[i].image
+    }).then(group => {
+          var groupcalls = [];
+          group.getCalls().then(calls => {
+            for (let i = 0; i < calls.length; i++) {
+              groupcalls.push({
+                  callId: calls[i].id,
+                  title: calls[i].title
                 });
             }
             res.status(200).send({ 
-              usergroups: memberof
+              groupcalls: groupcalls
             });
           });
+    })
+    .catch(err => {
+        res.status(500).send({ message: err.message });
+    });
+};
+
+exports.getGroupMessages = (req, res) => {
+    Message.findAll({
+        where: {
+            otherId: req.params.id
+        }
+    })
+      .then(messages => {
+        res.send(messages);
       })
       .catch(err => {
         res.status(500).send({ message: err.message });
-    });
+      });
 };
 

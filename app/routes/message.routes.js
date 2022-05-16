@@ -10,14 +10,9 @@ module.exports = function(app) {
     next();
   });
 
-  app.get(
-    "/api/messages/of/:id",
-    controller.getMessagesFrom
-  );
-
   app.post(
-      "/api/messages/create/:id",
-      [authJwt.verifyUserToken],
+      "/api/messages/:id",
+      [authJwt.verifyUserToken], 
       controller.createMessage
   );
 

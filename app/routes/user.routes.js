@@ -10,7 +10,7 @@ module.exports = function(app) {
     next();
   });
 
-  app.get("/api/guest", controller.allAccess);
+  app.get("/api/guest", controller.allAccess); 
 
   app.get(
     "/api/user",
@@ -22,6 +22,22 @@ module.exports = function(app) {
     "/api/users/:id",
     [authJwt.verifyUserToken],
     controller.userData
+  );
+
+  app.get(
+    "/api/users/groups/:id",
+    controller.getUserGroups
+  );
+
+  app.get(
+    "/api/users/calls/:id",
+    controller.getUserCalls
+  );
+
+  app.get(
+    "/api/users/messages/:id",
+    [authJwt.verifyUserToken],
+    controller.getUserMessages
   );
 
   app.get(

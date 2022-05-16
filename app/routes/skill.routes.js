@@ -14,7 +14,7 @@ module.exports = function(app) {
       "/api/skills",
       controller.getSkills
   );
-
+ 
   app.get(
     "/api/skills/:id",
     controller.getOneSkill
@@ -27,19 +27,19 @@ module.exports = function(app) {
 
   app.post(
       "/api/skills/:id",
-      [authJwt.verifyToken],
+      [authJwt.verifyUserToken],
       controller.createSkill
   );
 
   app.post(
     "/api/skills/add/:id",
-    [authJwt.verifyToken],
+    [authJwt.verifyUserToken],
     controller.addSkill
   );
 
   app.post(
     "/api/skills/remove/:id",
-    [authJwt.verifyToken],
+    [authJwt.verifyUserToken],
     controller.removeSkill
   );
 

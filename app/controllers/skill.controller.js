@@ -5,35 +5,47 @@ const Call = db.call;
 const Skill = db.skill;
 
 exports.createSkill = (req, res) => {
-    Skill.create({
-        name: req.body.name
-    })
-      .then(skill => {
-          User.findOne({
-              where: {
-                  id: req.params.id
-              }
-          }).then(user => {
-            if (!user) {
-                Call.findOne({
-                    where: {
-                        id: req.params.id
-                    }
-                }).then(call => {
-                    call.addSkills(skill).then(() => {
-                        res.send({ message: `Successfully added ${skill.name} to ${call.title}'s skills.` });
-                    })
-                })
-            } else {
+    if (!req.body.target) {
+        Skill.create({
+            name: req.body.name
+        }).then(skill => {
+            User.findOne({
+                where: {
+                    id: req.params.id
+                }
+            }).then(user => {
                 user.addSkills(skill).then(() => {
                     res.send({ message: `Successfully added ${skill.name} to ${user.username}'s skills.` });
                 })
+            })
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message });
+        });
+    } else {
+        Call.findOne({
+            where: {
+                id: req.body.target
             }
-          })
-      })
-      .catch(err => {
-        res.status(500).send({ message: err.message });
-      });
+        }).then(call => {
+            call.getUsers().then(users => {
+                if (users.some(user => user.id === req.params.id)) {
+                    Skill.create({
+                        name: req.body.name
+                    }).then(skill => {
+                        call.addSkills(skill).then(() => {
+                            res.send({ message: `Successfully added ${skill.name} to ${call.title}'s skills.` });
+                        })
+                    })
+                } else {
+                    res.send({ message: 'Users can only update their own calls.' });
+                }
+            })
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message });
+        });
+    }
 };
 
 exports.addSkill = (req, res) => {
@@ -43,27 +55,39 @@ exports.addSkill = (req, res) => {
         }
     })
       .then(skill => {
-          User.findOne({
-              where: {
-                  id: req.params.id
-              }
-          }).then(user => {
-            if (!user) {
-                Call.findOne({
-                    where: {
-                        id: req.params.id
-                    }
-                }).then(call => {
-                    call.addSkills(skill).then(() => {
-                        res.send({ message: `Successfully added ${skill.name} to ${call.title}'s skills.` });
-                    })
-                })
-            } else {
+        User.findOne({
+            where: {
+                id: req.params.id
+            }
+        }).then(user => {
+            if (!req.body.target) {
                 user.addSkills(skill).then(() => {
                     res.send({ message: `Successfully added ${skill.name} to ${user.username}'s skills.` });
                 })
+            } else {
+                Call.findOne({
+                    where: {
+                        id: req.body.target
+                    }
+                }).then(call => {
+                    call.getUsers().then(users => {
+                        if (users.some(user => user.id === req.params.id)) {
+                            call.addSkills(skill).then(() => {
+                                res.send({ message: `Successfully added ${skill.name} to ${call.title}'s skills.` });
+                            })
+                        } else {
+                            res.send({ message: 'Users can only update their own calls.' });
+                        }
+                    })
+                })
+                .catch(err => {
+                    res.status(500).send({ message: err.message });
+                });
             }
-          })
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message });
+        });
       })
       .catch(err => {
         res.status(500).send({ message: err.message });
@@ -77,27 +101,39 @@ exports.removeSkill = (req, res) => {
         }
     })
       .then(skill => {
-          User.findOne({
-              where: {
-                  id: req.params.id
-              }
-          }).then(user => {
-            if (!user) {
-                Call.findOne({
-                    where: {
-                        id: req.params.id
-                    }
-                }).then(call => {
-                    call.removeSkills(skill).then(() => {
-                        res.send({ message: `Successfully removed skill from ${call.title}.` });
-                    })
+        User.findOne({
+            where: {
+                id: req.params.id
+            }
+        }).then(user => {
+            if (!req.body.target) {
+                user.removeSkills(skill).then(() => {
+                    res.send({ message: `Successfully removed ${skill.name} from ${user.username}'s skills.` });
                 })
             } else {
-                user.removeSkills(skill).then(() => {
-                    res.send({ message: `Successfully removed skill from ${user.username}.` });
+                Call.findOne({
+                    where: {
+                        id: req.body.target
+                    }
+                }).then(call => {
+                    call.getUsers().then(users => {
+                        if (users.some(user => user.id === req.params.id)) {
+                            call.removeSkills(skill).then(() => {
+                                res.send({ message: `Successfully removed ${skill.name} from ${call.title}'s skills.` });
+                            })
+                        } else {
+                            res.send({ message: 'Users can only update their own calls.' });
+                        }
+                    })
                 })
+                .catch(err => {
+                    res.status(500).send({ message: err.message });
+                });
             }
-          })
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message });
+        });
       })
       .catch(err => {
         res.status(500).send({ message: err.message });

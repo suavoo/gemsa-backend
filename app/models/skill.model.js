@@ -9,5 +9,5 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING
       }
     });
-    return Skill;
+    return Skill; 
 };

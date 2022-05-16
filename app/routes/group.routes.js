@@ -7,7 +7,7 @@ module.exports = function(app) {
       "Access-Control-Allow-Headers",
       "x-access-token, Origin, Content-Type, Accept"
     );
-    next();
+    next(); 
   });
 
   app.post(
@@ -17,8 +17,8 @@ module.exports = function(app) {
   );
 
   app.put(
-    "/api/group/:id",
-    [authJwt.verifyToken],
+    "/api/groups/:id",
+    [authJwt.verifyUserToken],
     controller.updateGroup
   );
 
@@ -36,7 +36,7 @@ module.exports = function(app) {
 
   app.delete(
       "/api/groups/:id",
-      [authJwt.verifyToken],
+      [authJwt.verifyToken, authJwt.isAdmin],
       controller.deleteGroup
   );
 
@@ -56,7 +56,12 @@ module.exports = function(app) {
   );
 
   app.get(
-    "/api/users/groups/:id",
-    controller.getUserGroups
+    "/api/groups/calls/:id",
+    controller.getGroupCalls
+  );
+
+  app.get(
+    "/api/groups/messages/:id",
+    controller.getGroupMessages
   );
 };
