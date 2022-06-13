@@ -3,6 +3,7 @@ const db = require("../models");
 const User = db.user;
 const Group = db.group;
 const Message = db.message;
+const Call = db.call;
 
 exports.createGroup = (req, res) => {
     Group.create({
@@ -173,27 +174,17 @@ exports.getGroupUsers = (req, res) => {
 };
 
 exports.getGroupCalls = (req, res) => {
-    Group.findOne({
+    Call.findAll({
         where: {
-            id: req.params.id
+            group: req.params.id
         }
-    }).then(group => {
-          var groupcalls = [];
-          group.getCalls().then(calls => {
-            for (let i = 0; i < calls.length; i++) {
-              groupcalls.push({
-                  callId: calls[i].id,
-                  title: calls[i].title
-                });
-            }
-            res.status(200).send({ 
-              groupcalls: groupcalls
-            });
-          });
     })
-    .catch(err => {
+      .then(calls => {
+        res.send(calls);
+      })
+      .catch(err => {
         res.status(500).send({ message: err.message });
-    });
+      });
 };
 
 exports.getGroupMessages = (req, res) => {

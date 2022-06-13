@@ -2,10 +2,12 @@ const db = require("../models");
 const User = db.user;
 const Message = db.message;
 
+// Controllers preparing for sending specific content depending on user roles in the future
+
 exports.allAccess = (req, res) => {
     res.status(200).send("Public Content.");
 };
-  
+   
 exports.userBoard = (req, res) => {
     res.status(200).send("User Content.");
 };
@@ -17,6 +19,8 @@ exports.adminBoard = (req, res) => {
 exports.moderatorBoard = (req, res) => {
     res.status(200).send("Moderator Content.");
 };
+
+// Get details for specific user
 
 exports.userData = (req, res) => {
     User.findOne({
@@ -40,6 +44,8 @@ exports.userData = (req, res) => {
             res.status(500).send({ message: err.message });
         });
 };
+
+// Get groups specific user belongs to
 
 exports.getUserGroups = (req, res) => {
     User.findOne({
@@ -69,6 +75,8 @@ exports.getUserGroups = (req, res) => {
     });
 };
 
+// Get calls of specific user
+
 exports.getUserCalls = (req, res) => {
     User.findOne({
         where: {
@@ -92,6 +100,8 @@ exports.getUserCalls = (req, res) => {
         res.status(500).send({ message: err.message });
     });
 };
+
+// Get messages of specific user, only accessable to this specific user when logged in
 
 exports.getUserMessages = (req, res) => {
     Message.findAll({
