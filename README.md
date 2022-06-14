@@ -166,12 +166,184 @@ Group Routes:
 
 Call Routes:
 
+"/api/calls"
+    Purpose: Request an array of all call objects
+    Request Method: GET
+    Request Payload: None
+    Response: Array of Call Objects (JSON)
 
+"/api/calls/:id"
+    Purpose: Request one specific call object identified via ID in req.params
+    Request Method: GET
+    Request Payload: Call ID via req.params.id
+    Response: Call Object (JSON)
+
+"/api/calls/messages/:id"
+    Purpose: Request array of message objects posted to specific call
+    Request Method: GET
+    Request Payload: Call ID via req.params.id
+    Response: Array of Message Objects (JSON)
+
+"/api/calls/:id"
+    Purpose: Create call when user is logged in. If a Goup ID is provided via req.body.group, call will be associated 
+             with this group
+    Request Method: POST
+    Request Payload: User ID via req.params.id
+                     valid JSON Web Token of same user via req.headers["x-access-token"]
+                     req.body.title: String
+                     req.body.location (optional): String
+                     req.body.time (optional): String
+                     req.body.contactinfo (optional): String
+                     req.body.description (optional): String
+                     req.body.group (optional): String
+                     req.body.image (optional): String
+    Response: Confirmation or Error message
+      
+"/api/calls/:id"
+    Purpose: Update call when user is logged in and created the call
+    Request Method: PUT
+    Request Payload: User ID via req.params.id
+                     valid JSON Web Token of same user via req.headers["x-access-token"]
+                     req.body.callId: String
+                     req.body.title: String
+                     req.body.location (optional): String
+                     req.body.time (optional): String
+                     req.body.contactinfo (optional): String
+                     req.body.description (optional): String
+                     req.body.group (optional): String
+                     req.body.image (optional): String
+    Response: Confirmation or Error message
+    
+"/api/calls/:id"
+    Purpose: Delete call when user is logged in and created the call
+    Request Method: DELETE
+    Request Payload: User ID via req.params.id
+                     valid JSON Web Token of same user via req.headers["x-access-token"]
+                     req.body.callId: String
+    Response: Confirmation or Error message
 
 Message Routes:
 
+"/api/messages/:id"
+    Purpose: Create message when logged in. Can be posted to Group or Call by providing the ID via req.body.otherId
+    Request Method: POST
+    Request Payload: User ID via req.params.id
+                     valid JSON Web Token of same user via req.headers["x-access-token"]
+                     req.params.id: String
+                     req.body.otherId (optional): String
+                     req.body.text: String
+    Response: Confirmation or Error message
+
+"/api/messages/:id"
+    Purpose: Delete message when logged in and user has created the message
+    Request Method: DELETE
+    Request Payload: User ID via req.params.id
+                     valid JSON Web Token of same user via req.headers["x-access-token"]
+                     req.body.messageId: String
+    Response: Confirmation or Error message
+
+Skill Routes:
+
+"/api/skills"
+    Purpose: Request array of all skill objects
+    Request Method: GET
+    Request Payload: None
+    Response: Array of Skill Objects (JSON)
+      
+"/api/skills/:id"
+    Purposse: Request one specific skill object
+    Request Method: GET
+    Request Payload: Skill ID via req.params
+    Response: Skill Object (JSON)
+    
+"/api/skills/of/:id",
+    Purpose: Request array of skill objects of specific user or call
+    Request Method: GET
+    Request Payload: User or Call ID via req.params
+    Response: Array of Skill Objects (JSON)
+
+"/api/skills/:id"
+    Purpose: Create new skill when logged in. When Call ID is provided via optional req.body.target, skill will 
+             be added to Call, if omitted, it will be added to user
+    Request Method: POST
+    Request Payload: User ID via req.params.id
+                     valid JSON Web Token of same user via req.headers["x-access-token"]
+                     req.params.id: String
+                     req.body.target (optional): String
+                     req.body.name: String
+    Response: Confirmation or Error message
+
+"/api/skills/add/:id"
+    Purpose: Add existing skill to User or Call when logged in. When Call ID is provided via optional req.body.target, 
+             skill will be added to Call, if omitted, it will be added to user
+    Request Method: POST
+    Request Payload: User ID via req.params.id
+                     valid JSON Web Token of same user via req.headers["x-access-token"]
+                     req.params.id: String
+                     req.body.target (optional): String
+                     req.body.skillId: String
+    Response: Confirmation or Error message
+
+"/api/skills/remove/:id"
+    Purpose: Remove existing skill from User or Call when logged in. When Call ID is provided via optional 
+             req.body.target, skill will be removed from Call, if omitted, it will be removed from user
+    Request Method: POST
+    Request Payload: User ID via req.params.id
+                     valid JSON Web Token of same user via req.headers["x-access-token"]
+                     req.params.id: String
+                     req.body.target (optional): String
+                     req.body.skillId: String
+    Response: Confirmation or Error message
 
 Issue Routes:
 
+"/api/issues"
+    Purpose: Request array of all issue objects
+    Request Method: GET
+    Request Payload: None
+    Response: Array of Issue Objects (JSON)
 
-Skill Routes:
+"/api/issues/:id"
+    Purpose: Request specific issue object
+    Request Method: GET
+    Request Payload: Issue ID via req.params
+    Response: Issue Object (JSON)
+
+"/api/issues/of/:id"
+    Purpose: Request array of issue objects of specific user, group or call
+    Request Method: GET
+    Request Payload: User, Group or Call ID via req.params
+    Response: Array of Issue Objects (JSON)
+
+"/api/issues/:id"
+    Purpose: Create new skill when logged in. When Call or Group ID is provided via optional req.body.target, issue 
+             will be added to Call or Group respectively, if omitted, it will be added to user
+    Request Method: POST
+    Request Payload: User ID via req.params.id
+                     valid JSON Web Token of same user via req.headers["x-access-token"]
+                     req.params.id: String
+                     req.body.target (optional): String
+                     req.body.name: String
+    Response: Confirmation or Error message
+
+"/api/issues/add/:id"
+    Purpose: Add existing issue to User, Group or Call when logged in. When Call ID is provided via optional 
+             req.body.target, issue will be added to Call or Group respectively, if omitted, it will be added to user
+    Request Method: POST
+    Request Payload: User ID via req.params.id
+                     valid JSON Web Token of same user via req.headers["x-access-token"]
+                     req.params.id: String
+                     req.body.target (optional): String
+                     req.body.issueId: String
+    Response: Confirmation or Error message
+
+"/api/issues/remove/:id"
+    Purpose: Remove existing issue from User, Group or Call when logged in. When Call ID is provided via optional 
+             req.body.target, issue will be removed from Call, if omitted, it will be removed from user
+    Request Method: POST
+    Request Payload: User ID via req.params.id
+                     valid JSON Web Token of same user via req.headers["x-access-token"]
+                     req.params.id: String
+                     req.body.target (optional): String
+                     req.body.issueId: String
+    Response: Confirmation or Error message

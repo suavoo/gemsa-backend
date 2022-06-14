@@ -1,7 +1,7 @@
 const db = require("../models");
 
 const User = db.user;
-const Group = db.group;
+const Group = db.group; 
 const Issue = db.issue; 
 const Call = db.call;
 

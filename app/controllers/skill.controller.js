@@ -3,7 +3,7 @@ const db = require("../models");
 const User = db.user;
 const Call = db.call;
 const Skill = db.skill;
-
+ 
 exports.createSkill = (req, res) => {
     if (!req.body.target) {
         Skill.create({

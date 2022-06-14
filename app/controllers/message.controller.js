@@ -22,7 +22,7 @@ exports.createMessage = (req, res) => {
             })
           } else {
             Group.findOne({
-                where: {
+                where: { 
                     id: req.body.otherId
                 }
             }).then(group => {
