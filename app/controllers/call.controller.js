@@ -109,7 +109,7 @@ exports.getOneCall = (req, res) => {
         });
 };
 
-exports.getCallMessages = (req, res) => {
+exports.getCallMessages = (req, res) => { 
     Message.findAll({
         where: {
             otherId: req.params.id

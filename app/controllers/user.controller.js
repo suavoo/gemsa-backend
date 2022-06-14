@@ -3,14 +3,6 @@ const User = db.user;
 const Message = db.message;
 
 // Controllers preparing for sending specific content depending on user roles in the future
-
-exports.allAccess = (req, res) => {
-    res.status(200).send("Public Content.");
-};
-   
-exports.userBoard = (req, res) => {
-    res.status(200).send("User Content.");
-};
    
 exports.adminBoard = (req, res) => {
     res.status(200).send("Admin Content.");

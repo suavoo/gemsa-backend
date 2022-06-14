@@ -3,6 +3,7 @@ const config = require("../config/auth.config.js");
 const db = require("../models");
 const User = db.user;
 
+// verify user has a valid token
 verifyToken = (req, res, next) => { 
   let token = req.headers["x-access-token"]; 
   if (!token) { 
@@ -21,6 +22,7 @@ verifyToken = (req, res, next) => {
   });
 }; 
 
+// verify user has valid token and identify user for access to information specific to that user
 verifyUserToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
   if (!token) { 
@@ -40,6 +42,8 @@ verifyUserToken = (req, res, next) => {
     
   })
 };
+
+// checking user roles before allowing access to role specific content
 
 isAdmin = (req, res, next) => {
     User.findByPk(req.userId).then(user => {

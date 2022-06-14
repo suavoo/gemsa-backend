@@ -19,7 +19,7 @@ exports.createGroup = (req, res) => {
               }
           }).then(user => {
             group.setUsers([user]).then(() => {
-                res.send({ message: "User successfully created Group!" });
+                res.send(group);
             })
           })
       })
@@ -43,7 +43,7 @@ exports.updateGroup = (req, res) => {
                     description: req.body.description,
                     image: req.body.image
                 }).then(() => {
-                   res.send({ message: `${group.title} has been updated` });
+                   res.send(group);
                 })
               } else {
                   res.send({ message: 'Must be member to update.' })
@@ -102,20 +102,6 @@ exports.leaveGroup = (req, res) => {
                 }
             })
         })
-      .catch(err => {
-        res.status(500).send({ message: err.message });
-      });
-};
-
-exports.deleteGroup = (req, res) => {
-    Group.destroy({
-        where: {
-            id: req.body.groupId
-        }
-    })
-      .then(
-          res.send({ message: 'Group was deleted.' })
-      )
       .catch(err => {
         res.status(500).send({ message: err.message });
       });
