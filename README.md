@@ -1,6 +1,6 @@
 Gemsa-Backend API
 
-This is a node.js and express.js Backend API for an application where users can find likeminded people for social, civic or political projects. 
+This is a node.js and express.js Backend API for an application where users can find likeminded people for social, civic or political projects. I use MySQL as the database and Sequelize as the ORM.
 
 Users:
 Users will be able to register with a username, valid email address and password. Once registered, login is possible via username and password. On their profiles, users can specify their location and tell others about themselves and what they are interested in in a bio as well as through adding issues they would like to address and the skills they will bring to a project. 
@@ -11,8 +11,8 @@ Users can form, enter and leave groups. These groups will have a title, location
 Calls: 
 Users can emit calls for other users to join their cause or project which will be visible to other users depending on location and issues. Calls can also specify skills that are needed for the project as well as contact information and a time. Calls can also be associated with a group by providing the group id as "group: groupId" in the request body.
 
-Messages: 
-Users can post messages in response to calls and in groups they are members of. Messages posted to calls will be visible to the user who emitted that call or, if it is associated with a group, to all members of that group. Messages posted in groups will be visible to all members of that group.
+Comments: 
+Users can post comments in response to calls and in groups they are members of. Comments posted to calls will be visible to the user who emitted that call or, if it is associated with a group, to all members of that group. Comments posted in groups will be visible to all members of that group.
 
 Issues & Skills:
 Users can tag their profiles, calls and groups with issues they want their project to address and their profiles and calls with skills they can provide or that they need for a project.
@@ -72,13 +72,13 @@ User Routes:
                                  title: String
         ]
 
-"/api/users/messages/:id"
-    Purpose: Request array of messages of a specific user identified via id in req.params. This information 
+"/api/users/comments/:id"
+    Purpose: Request array of comments of a specific user identified via id in req.params. This information 
             can only be requested by the user himself while logged in
     Request Method: GET
     Request Payload: User ID via req.params.id
                      valid JSON Web Token of same user via req.headers["x-access-token"]
-    Response: Array of Message Objects (JSON)
+    Response: Array of Comment Objects (JSON)
 
 "/api/users/mod"
     Purpose: Request content reserved for logged in moderators 
@@ -118,11 +118,11 @@ Group Routes:
     Request Payload: Group ID via req.params.id
     Response: Array of Call Objects (JSON)
 
-"/api/groups/messages/:id"
-    Purpose: Request an array of message objects posted in a specific group
+"/api/groups/comments/:id"
+    Purpose: Request an array of comment objects posted in a specific group
     Request Method: GET
     Request Payload: Group ID via req.params.id
-    Response: Array of Message Objects (JSON)
+    Response: Array of Comment Objects (JSON)
   
 "/api/groups/:id"
     Purpose: Create new group, only possible when logged in
@@ -178,11 +178,11 @@ Call Routes:
     Request Payload: Call ID via req.params.id
     Response: Call Object (JSON)
 
-"/api/calls/messages/:id"
-    Purpose: Request array of message objects posted to specific call
+"/api/calls/comments/:id"
+    Purpose: Request array of comment objects posted to specific call
     Request Method: GET
     Request Payload: Call ID via req.params.id
-    Response: Array of Message Objects (JSON)
+    Response: Array of Comment Objects (JSON)
 
 "/api/calls/:id"
     Purpose: Create call when user is logged in. If a Goup ID is provided via req.body.group, call will be associated 
@@ -222,10 +222,10 @@ Call Routes:
                      req.body.callId: String
     Response: Confirmation or Error message
 
-Message Routes:
+Comment Routes:
 
-"/api/messages/:id"
-    Purpose: Create message when logged in. Can be posted to Group or Call by providing the ID via req.body.otherId
+"/api/comments/:id"
+    Purpose: Create comment when logged in. Can be posted to Group or Call by providing the ID via req.body.otherId
     Request Method: POST
     Request Payload: User ID via req.params.id
                      valid JSON Web Token of same user via req.headers["x-access-token"]
@@ -234,12 +234,12 @@ Message Routes:
                      req.body.text: String
     Response: Confirmation or Error message
 
-"/api/messages/:id"
+"/api/comments/:id"
     Purpose: Delete message when logged in and user has created the message
     Request Method: DELETE
     Request Payload: User ID via req.params.id
                      valid JSON Web Token of same user via req.headers["x-access-token"]
-                     req.body.messageId: String
+                     req.body.commentId: String
     Response: Confirmation or Error message
 
 Skill Routes:

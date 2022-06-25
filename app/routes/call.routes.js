@@ -45,10 +45,10 @@ module.exports = function(app) {
     controller.deleteCall
   );
 
-  // Request array of message objects posted to specific call identified via ID in req.params
+  // Request array of comment objects posted to specific call identified via ID in req.params
   app.get(
-    "/api/calls/messages/:id",
-    controller.getCallMessages
+    "/api/calls/comments/:id",
+    controller.getCallComments
   );
 
 };

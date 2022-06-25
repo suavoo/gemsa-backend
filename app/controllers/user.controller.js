@@ -1,6 +1,6 @@
 const db = require("../models");
 const User = db.user;
-const Message = db.message;
+const Comment = db.comment;
 
 // Controllers preparing for sending specific content depending on user roles in the future
    
@@ -93,16 +93,16 @@ exports.getUserCalls = (req, res) => {
     });
 };
 
-// Get messages of specific user, only accessable to this specific user when logged in
+// Get comments of specific user, only accessable to this specific user when logged in
 
-exports.getUserMessages = (req, res) => {
-    Message.findAll({
+exports.getUserComments = (req, res) => {
+    Comment.findAll({
         where: {
             userId: req.params.id
         }
     })
-      .then(messages => {
-        res.send(messages);
+      .then(comments => {
+        res.send(comments);
       })
       .catch(err => {
         res.status(500).send({ message: err.message });

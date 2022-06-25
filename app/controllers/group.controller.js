@@ -2,7 +2,7 @@ const db = require("../models");
 
 const User = db.user;
 const Group = db.group;
-const Message = db.message;
+const Comment = db.comment;
 const Call = db.call;
 
 exports.createGroup = (req, res) => {
@@ -173,14 +173,14 @@ exports.getGroupCalls = (req, res) => {
       });
 };
 
-exports.getGroupMessages = (req, res) => {
-    Message.findAll({
+exports.getGroupComments = (req, res) => {
+    Comment.findAll({
         where: {
             otherId: req.params.id
         }
     })
-      .then(messages => {
-        res.send(messages);
+      .then(comments => {
+        res.send(comments);
       })
       .catch(err => {
         res.status(500).send({ message: err.message });

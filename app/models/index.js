@@ -5,7 +5,7 @@ const sequelize = new Sequelize(
   config.DB,
   config.USER,
   config.PASSWORD,
-  {
+  { 
     host: config.HOST,
     port: config.PORT,
     dialect: config.dialect,
@@ -31,7 +31,7 @@ db.user_groups = require("../models/user_groups.model.js")(sequelize, Sequelize)
 db.call = require("../models/call.model.js")(sequelize, Sequelize);
 db.issue = require("../models/issue.model.js")(sequelize, Sequelize);
 db.skill = require("../models/skill.model.js")(sequelize, Sequelize);
-db.message = require("../models/message.model.js")(sequelize, Sequelize);
+db.comment = require("./comment.model.js")(sequelize, Sequelize);
 
 // Users & Roles
 
@@ -156,52 +156,6 @@ db.call.belongsToMany(db.skill, {
     foreignKey: "callId",
     otherKey: "skillId"
 });
-
-/*
-
-// Users & Messages
-
-db.message.belongsToMany(db.user, {
-    through: "user_messages",
-    foreignKey: "messageId",
-    otherKey: "userId"
-});
-  
-db.user.belongsToMany(db.message, {
-    through: "user_messages",
-    foreignKey: "userId",
-    otherKey: "messageId"
-});
-
-// Calls & Messages
-
-db.message.belongsToMany(db.call, {
-    through: "call_messages",
-    foreignKey: "messageId",
-    otherKey: "callId"
-});
-  
-db.call.belongsToMany(db.message, {
-    through: "call_messages",
-    foreignKey: "callId",
-    otherKey: "messageId"
-});
-
-// Groups & Messages
-
-db.message.belongsToMany(db.group, {
-    through: "group_messages",
-    foreignKey: "messageId",
-    otherKey: "groupId"
-});
-  
-db.group.belongsToMany(db.message, {
-    through: "group_messages",
-    foreignKey: "groupId",
-    otherKey: "messageId"
-});
-
-*/
 
 module.exports = db;
   

@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Message = sequelize.define("messages", {
+    const Comment = sequelize.define("comments", {
       id: {
           type: Sequelize.UUID,
           defaultValue: Sequelize.UUIDV4,
@@ -7,7 +7,7 @@ module.exports = (sequelize, Sequelize) => {
       },
       userId: {
         type: Sequelize.UUID
-      },
+      }, 
       otherId: {
           type: Sequelize.UUID
       },
@@ -15,6 +15,6 @@ module.exports = (sequelize, Sequelize) => {
           type: Sequelize.TEXT
       }
     });
-    return Message;
+    return Comment;
 };
   

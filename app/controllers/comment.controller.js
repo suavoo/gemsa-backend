@@ -1,11 +1,11 @@
 const db = require("../models");
 
 const User = db.user;
-const Message = db.message;
+const Comment = db.comment;
 const Group = db.group;
 const Call = db.call;
 
-exports.createMessage = (req, res) => {
+exports.createComment = (req, res) => {
     User.findOne({
         where: {
             id: req.params.id
@@ -13,12 +13,12 @@ exports.createMessage = (req, res) => {
     })
       .then(user => {
           if (!req.body.otherId) {
-            Message.create({
+            Comment.create({
                 userId: req.params.id,
                 otherId: req.body.otherId,
                 text: req.body.text
-            }).then(message => {
-                res.send({ message: `${user.username} said: ${message.text}` })
+            }).then(comment => {
+                res.send({ message: `${user.username} said: ${comment.text}` })
             })
           } else {
             Group.findOne({
@@ -35,27 +35,27 @@ exports.createMessage = (req, res) => {
                         if (!call) {
                             res.send({ message: 'No Group or Call found.' })
                         } else {
-                            Message.create({
+                            Comment.create({
                                 userId: req.params.id,
                                 otherId: req.body.otherId,
                                 text: req.body.text
-                            }).then(message => {
-                                res.send({ message: `${user.username} said: ${message.text}` })
+                            }).then(comment => {
+                                res.send({ message: `${user.username} said: ${comment.text}` })
                             })
                         }
                     })
                 } else {
                     group.getUsers().then(users => {
                         if (users.some(user => user.id === req.params.id)) {
-                            Message.create({
+                            Comment.create({
                                 userId: req.params.id,
                                 otherId: req.body.otherId,
                                 text: req.body.text
-                            }).then(message => {
-                                res.send({ message: `${user.username} said: ${message.text}` })
+                            }).then(comment => {
+                                res.send({ message: `${user.username} said: ${comment.text}` })
                             })
                         } else {
-                            res.send({ message: 'Only members can message the group.' })
+                            res.send({ message: 'Only members can comment in the group.' })
                         }
                     })
                 }
@@ -67,24 +67,24 @@ exports.createMessage = (req, res) => {
       });
 };
 
-exports.deleteMessage = (req, res) => {
-    Message.findOne({
+exports.deleteComment = (req, res) => {
+    Comment.findOne({
         where: {
-            id: req.body.messageId 
+            id: req.body.commentId 
         }
     })
-      .then(message => {
+      .then(comment => {
           User.findOne({
               where: {
                   id: req.params.id
               }
           }).then(user => {
-              if (user.id === message.userId) {
-                  message.destroy().then(() => {
-                      res.send({ message: 'Message deleted!' })
+              if (user.id === comment.userId) {
+                comment.destroy().then(() => {
+                      res.send({ message: 'Comment deleted!' })
                   })
               } else {
-                  res.send({ message: 'Not your message to delete!' });
+                  res.send({ message: 'Not your comment to delete!' });
               }
           })
       })

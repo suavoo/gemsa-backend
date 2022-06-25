@@ -28,13 +28,13 @@ module.exports = function(app) {
     controller.getUserCalls
   );
 
-  // Request array of messages of a specific user identified via id in req.params. This information 
+  // Request array of comments of a specific user identified via id in req.params. This information 
   // can only be requested by the user himself while logged in so the correct and valid JSON web token is 
   // required in req.headers
   app.get(
-    "/api/users/messages/:id",
+    "/api/users/comments/:id",
     [authJwt.verifyUserToken],
-    controller.getUserMessages
+    controller.getUserComments
   );
 
   // Request content reserved for logged in moderators, valid JSON web token is required in req.headers

@@ -2,7 +2,7 @@ const db = require("../models");
 
 const User = db.user;
 const Call = db.call; 
-const Message = db.message;
+const Comment = db.comment;
 
 exports.createCall = (req, res) => { 
     Call.create({
@@ -109,14 +109,14 @@ exports.getOneCall = (req, res) => {
         });
 };
 
-exports.getCallMessages = (req, res) => { 
-    Message.findAll({
+exports.getCallComments = (req, res) => { 
+    Comment.findAll({
         where: {
             otherId: req.params.id
         }
     })
-      .then(messages => {
-        res.send(messages);
+      .then(comment => {
+        res.send(comment);
       })
       .catch(err => {
         res.status(500).send({ message: err.message });

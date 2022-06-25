@@ -34,7 +34,7 @@ require('./app/routes/group.routes')(app);
 require('./app/routes/issue.routes')(app);
 require('./app/routes/skill.routes')(app);
 require('./app/routes/call.routes')(app);
-require('./app/routes/message.routes')(app);
+require('./app/routes/comment.routes')(app);
 
 // set port, listen for requests
 

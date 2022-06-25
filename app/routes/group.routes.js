@@ -66,9 +66,9 @@ module.exports = function(app) {
     controller.getGroupCalls
   );
 
-  // Requests an array of message objects posted in a group identified by ID in req.params
+  // Requests an array of comment objects posted in a group identified by ID in req.params
   app.get(
-    "/api/groups/messages/:id",
-    controller.getGroupMessages
+    "/api/groups/comments/:id",
+    controller.getGroupComments
   );
 };
